@@ -71,8 +71,7 @@ public class SignInPresenter implements SignInContract.Presenter {
             }
         } catch (ApiException e) {
             if (mView != null) {
-                mView.startContactsActivity();
-//                mView.showMessage(R.string.message_error);
+                mView.showMessage(R.string.message_error);
             }
         }
     }
