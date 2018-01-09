@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Contacts</string>
+
+    <string name="message_error">Error. Try later.</string>
+    <string name="title_add_contact">Add contact</string>
+    <string name="title_there_is_no_contacts">There is no contacts</string>
+    <string name="title_first_name">First Name</string>
+    <string name="title_last_name">Last Name</string>
+    <string name="title_email">Email</string>
+    <string name="title_save_contact">Save contact</string>
+    <string name="error_incorrect_user_name">Maximum 30 symbols, minimum 2</string>
+    <string name="error_incorrect_email">Wrong email</string>
+    <string name="title_contact_saved">Contact was saved!</string>
+    <string name="title_logout">Logout</string>
+    <string name="question_logout">Are you sure you want to logout?</string>
+    <string name="title_later">Later</string>
+    <string name="title_logout_success">Success!</string>
+    <string name="title_sortings">Sortings</string>
+    <string name="title_sort_by_name">Sort by name</string>
+    <string name="title_sort_by_email">Sort by email</string>
+    <string name="warning_need_account_permission">The app needs access to accounts</string>
+
+</resources>
