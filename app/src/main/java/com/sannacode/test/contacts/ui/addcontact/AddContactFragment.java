@@ -130,6 +130,11 @@ public class AddContactFragment extends BaseFragment implements AddContactContra
     @Override
     public void onStop() {
         super.onStop();
+        hideKeyboardIfVisible();
+        mPresenter.unbindView();
+    }
+
+    private void hideKeyboardIfVisible() {
         InputMethodManager mInputMethodManager = (InputMethodManager)
                 mContactActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (mInputMethodManager != null) {
@@ -140,13 +145,12 @@ public class AddContactFragment extends BaseFragment implements AddContactContra
                 }
             }
         }
-        mPresenter.unbindView();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mPresenter.onSaveInstanceState(accountId, mEditTextFirstName.getText().toString()
+        mPresenter.onSaveInstanceState(mEditTextFirstName.getText().toString()
                 , mEditTextLastName.getText().toString(), mEditTextEmail.getText().toString());
     }
 }

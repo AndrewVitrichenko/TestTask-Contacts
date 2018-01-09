@@ -26,7 +26,7 @@ public interface AddContactContract {
 
         void onSaveContactButtonClickedEvent(String accountId, String firstName, String lastName, String email);
 
-        void onSaveInstanceState(String accountId, String firstName, String lastName, String email);
+        void onSaveInstanceState(String firstName, String lastName, String email);
 
         void onRestoreInstanceState();
 

@@ -10,11 +10,12 @@ public class AddContactPresenter implements AddContactContract.Presenter {
 
     private AddContactContract.Model mRepository;
     private AddContactContract.View mView;
-    private Contact currentContact;
+    private String lastEnteredFirstName = "";
+    private String lastEnteredLastName = "";
+    private String lastEnteredEmail = "";
 
     public AddContactPresenter(AddContactContract.Model mRepository) {
         this.mRepository = mRepository;
-        this.currentContact = new Contact();
     }
 
     @Override
@@ -30,31 +31,41 @@ public class AddContactPresenter implements AddContactContract.Presenter {
 
     @Override
     public void onSaveContactButtonClickedEvent(String accountId, String firstName, String lastName, String email) {
-        currentContact = new Contact();
-        currentContact.setAccountId(accountId);
-        currentContact.setFirstName(firstName);
-        currentContact.setLastName(lastName);
-        currentContact.setEmail(email);
-        mRepository.insertContact(currentContact);
+        Contact contact = new Contact();
+        contact.setAccountId(accountId);
+        contact.setFirstName(firstName);
+        contact.setLastName(lastName);
+        contact.setEmail(email);
+        setDefaultValues();
+        mRepository.insertContact(contact);
         if (mView != null) {
             mView.showSaveContactMessage();
         }
     }
 
     @Override
-    public void onSaveInstanceState(String accountId, String firstName, String lastName, String email) {
-        currentContact.setAccountId(accountId);
-        currentContact.setFirstName(firstName);
-        currentContact.setLastName(lastName);
-        currentContact.setEmail(email);
+    public void onSaveInstanceState(String firstName, String lastName, String email) {
+        saveEnteredValues(firstName, lastName, email);
+    }
+
+    private void saveEnteredValues(String firstName, String lastName, String email) {
+        lastEnteredFirstName = firstName;
+        lastEnteredLastName = lastName;
+        lastEnteredEmail = email;
+    }
+
+    private void setDefaultValues() {
+        lastEnteredFirstName = "";
+        lastEnteredLastName = "";
+        lastEnteredEmail = "";
     }
 
     @Override
     public void onRestoreInstanceState() {
         if (mView != null) {
-            mView.setSavedValues(currentContact.getFirstName(), currentContact.getLastName(), currentContact.getEmail());
+            mView.setSavedValues(lastEnteredFirstName, lastEnteredLastName, lastEnteredEmail);
         }
     }
-
-
 }
+
+
