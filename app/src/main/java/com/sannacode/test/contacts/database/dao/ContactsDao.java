@@ -9,6 +9,9 @@ import com.sannacode.test.contacts.entity.Contact;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+
 
 /**
  * Created by Andrew on 05.01.2018.
@@ -21,11 +24,11 @@ public interface ContactsDao {
     void insertContact(Contact contact);
 
     @Query("SELECT * FROM contacts WHERE accountId LIKE :accountId")
-    List<Contact> getContactsByAccountId(String accountId);
+    Single<List<Contact>> getContactsByAccountId(String accountId);
 
     @Query("SELECT * FROM contacts WHERE accountId LIKE :accountId ORDER BY firstName")
-    List<Contact> getContactsByAccountIdSortedByName(String accountId);
+    Single<List<Contact>> getContactsByAccountIdSortedByName(String accountId);
 
     @Query("SELECT * FROM contacts WHERE accountId LIKE :accountId ORDER BY email")
-    List<Contact> getContactsByAccountIdSortedByEmail(String accountId);
+    Single<List<Contact>> getContactsByAccountIdSortedByEmail(String accountId);
 }

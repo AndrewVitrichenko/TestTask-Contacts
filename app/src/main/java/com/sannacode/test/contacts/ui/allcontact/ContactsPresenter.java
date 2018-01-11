@@ -1,18 +1,28 @@
 package com.sannacode.test.contacts.ui.allcontact;
 
+import android.support.annotation.NonNull;
+import android.widget.Toast;
+
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.sannacode.test.contacts.R;
 import com.sannacode.test.contacts.entity.Contact;
 import com.sannacode.test.contacts.entity.SortType;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Andrew on 05.01.2018.
  */
 
-public class ContactsPresenter implements ContactsContract.Presenter {
+public class ContactsPresenter implements ContactsContract.Presenter, OnCompleteListener<Void> {
 
     private ContactsContract.Model mRepository;
     private ContactsContract.View mView;
@@ -28,23 +38,17 @@ public class ContactsPresenter implements ContactsContract.Presenter {
 
     @Override
     public void loadContacts(String accountId, SortType sortType) {
-        List<Contact> contacts = new ArrayList<>();
-        switch (sortType) {
-            case DEFAULT:
-                contacts = mRepository.getContactsByAccountId(accountId, SortType.DEFAULT);
-                break;
-            case BY_NAME:
-                contacts = mRepository.getContactsByAccountId(accountId, SortType.BY_NAME);
-                break;
-            case BY_EMAIL:
-                contacts = mRepository.getContactsByAccountId(accountId, SortType.BY_EMAIL);
-                break;
-        }
-        if (contacts.isEmpty()) {
-            mView.showNoContactsMessage();
-        } else {
-            mView.showContacts(contacts);
-        }
+        mRepository.getContactsByAccountId(accountId, sortType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mContacts -> {
+                            if (mView != null)
+                                mView.showContacts(mContacts);
+                        },
+                        throwable -> {
+                            if (mView != null)
+                                mView.showNoContactsMessage();
+                        });
     }
 
     @Override
@@ -60,8 +64,21 @@ public class ContactsPresenter implements ContactsContract.Presenter {
         if (mView != null) {
             GoogleSignInClient mGoogleSignInClient = mView.getGoogleClient(gso);
             mGoogleSignInClient.signOut()
-                    .addOnCompleteListener(mView.getOnCompleteLogoutListener());
+                    .addOnCompleteListener(this);
         }
     }
 
+    @Override
+    public void onComplete(@NonNull Task<Void> task) {
+        if (task.isSuccessful()) {
+            if (mView != null) {
+                mView.showMessage(R.string.title_logout_success);
+                mView.performLogout();
+            }
+        } else {
+            if (mView != null) {
+                mView.showMessage(R.string.message_error);
+            }
+        }
+    }
 }

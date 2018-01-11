@@ -8,6 +8,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.sannacode.test.contacts.entity.User;
 
+import io.reactivex.Single;
+
 /**
  * Created by Andrew on 06.01.2018.
  */
@@ -16,7 +18,7 @@ public interface SignInContract {
 
     interface Model {
 
-        User getUserByAccountId(String accountId);
+        Single<User> getUserByAccountId(String accountId);
 
         void insertUser(User user);
     }
@@ -26,6 +28,8 @@ public interface SignInContract {
         GoogleSignInAccount getLastSignedAccount();
 
         void startContactsActivity(GoogleSignInAccount account);
+
+        void startContactsActivity(String accountId);
 
         GoogleSignInClient getGoogleClient(GoogleSignInOptions gso);
 

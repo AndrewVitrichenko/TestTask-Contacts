@@ -11,6 +11,13 @@ import com.google.android.gms.tasks.Task;
 import com.sannacode.test.contacts.R;
 import com.sannacode.test.contacts.entity.User;
 
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Andrew on 06.01.2018.
  */
@@ -21,6 +28,7 @@ public class SignInPresenter implements SignInContract.Presenter {
     private SignInContract.View mView;
 
     private GoogleSignInClient mGoogleSignInClient;
+
 
     public SignInPresenter(SignInContract.Model mRepository) {
         this.mRepository = mRepository;
@@ -65,26 +73,34 @@ public class SignInPresenter implements SignInContract.Presenter {
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(signInData);
         try {
             GoogleSignInAccount account = task.getResult(ApiException.class);
-            checkIfUserExistInDatabase(account);
+//            checkIfUserExistInDatabase(account);
             if (mView != null) {
                 mView.startContactsActivity(account);
             }
         } catch (ApiException e) {
+//            if (mView != null) {
+//                mView.showMessage(R.string.message_error);
+//            }
+            checkIfUserExistInDatabase("123456");
             if (mView != null) {
-                mView.showMessage(R.string.message_error);
+                mView.startContactsActivity("123456");
             }
         }
     }
 
 
-    private void checkIfUserExistInDatabase(GoogleSignInAccount account) {
-        User user = mRepository.getUserByAccountId(account.getId());
-        if (user == null) {
-            user = new User();
-            user.setAccountId(account.getId());
-            user.setFullName(account.getDisplayName());
-            mRepository.insertUser(user);
-        }
+    private void checkIfUserExistInDatabase(String accountId) {
+        mRepository.getUserByAccountId(accountId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        throwable -> {
+                            User mUser = new User();
+                            mUser.setAccountId(accountId);
+                            mUser.setFullName("Petya");
+                            mRepository.insertUser(mUser);
+                        }
+                );
     }
 
 }

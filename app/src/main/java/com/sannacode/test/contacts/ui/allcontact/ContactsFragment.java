@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
@@ -139,6 +140,7 @@ public class ContactsFragment extends BaseFragment implements ContactsContract.V
     public void onStart() {
         super.onStart();
         mPresenter.bindView(this);
+        if (mAdapter.getItemCount() == 0)
         mPresenter.loadContacts(accountId, SortType.DEFAULT);
     }
 
@@ -146,6 +148,11 @@ public class ContactsFragment extends BaseFragment implements ContactsContract.V
     public void showNoContactsMessage() {
         mTextViewNoContacts.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showMessage(@StringRes int messageId) {
+        Toast.makeText(mContactActivity, messageId, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -166,18 +173,11 @@ public class ContactsFragment extends BaseFragment implements ContactsContract.V
         dialog.setTitle(R.string.title_logout)
                 .setIcon(R.mipmap.ic_launcher)
                 .setMessage(R.string.question_logout)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialoginterface, int i) {
-                        mPresenter.onLogoutClickEvent();
-                        dialoginterface.cancel();
-                    }
+                .setPositiveButton(android.R.string.ok, (dialoginterface, i) -> {
+                    mPresenter.onLogoutClickEvent();
+                    dialoginterface.cancel();
                 })
-                .setNegativeButton(R.string.title_later, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                })
+                .setNegativeButton(R.string.title_later, (dialogInterface, i) -> dialogInterface.cancel())
                 .setCancelable(true)
                 .create()
                 .show();
@@ -188,22 +188,9 @@ public class ContactsFragment extends BaseFragment implements ContactsContract.V
         return GoogleSignIn.getClient(mContactActivity, gso);
     }
 
-    @Override
-    public OnCompleteListener<Void> getOnCompleteLogoutListener() {
-        return new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    performLogout();
-                } else {
-                    Toast.makeText(mContactActivity, R.string.message_error, Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-    }
 
-    private void performLogout() {
-        Toast.makeText(mContactActivity, R.string.title_logout_success, Toast.LENGTH_SHORT).show();
+    @Override
+    public void performLogout() {
         Intent intent = new Intent(mContactActivity, SignInActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mContactActivity.startActivity(intent);

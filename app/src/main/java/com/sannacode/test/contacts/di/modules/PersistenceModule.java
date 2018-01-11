@@ -30,8 +30,7 @@ public class PersistenceModule {
     @Singleton
     AppDatabase provideAppDatabase(Context mContext) {
         return Room.databaseBuilder(mContext,
-                AppDatabase.class, Constants.DATABASE_NAME).
-                allowMainThreadQueries().build();
+                AppDatabase.class, Constants.DATABASE_NAME).build();
     }
 
     @Provides

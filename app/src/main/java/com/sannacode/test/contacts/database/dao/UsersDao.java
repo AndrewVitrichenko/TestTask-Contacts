@@ -6,6 +6,8 @@ import android.arch.persistence.room.Query;
 
 import com.sannacode.test.contacts.entity.User;
 
+import io.reactivex.Single;
+
 
 /**
  * Created by Andrew on 05.01.2018.
@@ -17,5 +19,5 @@ public interface UsersDao {
     void insertUser(User user);
 
     @Query("SELECT * FROM users WHERE accountId LIKE :accountId")
-    User getUserByAccountId(String accountId);
+    Single<User> getUserByAccountId(String accountId);
 }

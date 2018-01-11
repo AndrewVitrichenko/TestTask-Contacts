@@ -7,6 +7,9 @@ import com.sannacode.test.contacts.entity.SortType;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+
 
 /**
  * Created by Andrew on 05.01.2018.
@@ -22,20 +25,16 @@ public class ContactsRepository implements ContactsContract.Model {
 
 
     @Override
-    public List<Contact> getContactsByAccountId(String accountId, SortType sortType) {
-        List<Contact> contacts = new ArrayList<>();
+    public Single<List<Contact>> getContactsByAccountId(String accountId, SortType sortType) {
         switch (sortType) {
             case DEFAULT:
-                contacts = mDao.getContactsByAccountId(accountId);
-                break;
+                return mDao.getContactsByAccountId(accountId);
             case BY_NAME:
-                contacts = mDao.getContactsByAccountIdSortedByName(accountId);
-                break;
+                return mDao.getContactsByAccountIdSortedByName(accountId);
             case BY_EMAIL:
-                contacts = mDao.getContactsByAccountIdSortedByEmail(accountId);
-                break;
+                return mDao.getContactsByAccountIdSortedByEmail(accountId);
         }
-        return contacts;
+        return null;
     }
 
 }
