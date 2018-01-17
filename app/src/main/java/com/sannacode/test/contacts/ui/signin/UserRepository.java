@@ -2,6 +2,7 @@ package com.sannacode.test.contacts.ui.signin;
 
 import com.sannacode.test.contacts.database.dao.UsersDao;
 import com.sannacode.test.contacts.entity.User;
+import com.sannacode.test.contacts.listeners.DatabaseOperationListener;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -27,10 +28,13 @@ public class UserRepository implements SignInContract.Model {
     }
 
     @Override
-    public void insertUser(User user) {
-        Observable.just(user)
+    public void insertUser(DatabaseOperationListener databaseListener, User... mUsers) {
+        Observable.just(mUsers)
                 .observeOn(Schedulers.io())
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(mDao::insertUser);
+                .subscribe(users -> {
+                    mDao.insertUsers(users);
+                    databaseListener.onDatabaseOperationSucceed();
+                }, throwable -> databaseListener.onDatabaseOperationFailure());
     }
 }

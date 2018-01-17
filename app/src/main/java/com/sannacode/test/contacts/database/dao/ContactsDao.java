@@ -9,7 +9,6 @@ import com.sannacode.test.contacts.entity.Contact;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 

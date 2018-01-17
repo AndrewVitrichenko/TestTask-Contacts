@@ -3,7 +3,7 @@ package com.sannacode.test.contacts.ui.addcontact;
 import android.support.annotation.StringRes;
 
 import com.sannacode.test.contacts.entity.Contact;
-import com.sannacode.test.contacts.listeners.OnUserAddedToDatabaseEvent;
+import com.sannacode.test.contacts.listeners.DatabaseOperationListener;
 
 /**
  * Created by Andrew on 06.01.2018.
@@ -13,7 +13,7 @@ public interface AddContactContract {
 
     interface Model {
 
-        void insertContact(Contact contact, OnUserAddedToDatabaseEvent databaseListener);
+        void insertContact(Contact contact, DatabaseOperationListener databaseListener);
     }
 
     interface View {

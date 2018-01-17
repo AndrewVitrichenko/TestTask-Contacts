@@ -1,23 +1,15 @@
 package com.sannacode.test.contacts.ui.allcontact;
 
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.sannacode.test.contacts.R;
-import com.sannacode.test.contacts.entity.Contact;
 import com.sannacode.test.contacts.entity.SortType;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**

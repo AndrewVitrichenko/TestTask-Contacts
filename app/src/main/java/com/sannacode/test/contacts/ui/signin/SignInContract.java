@@ -7,6 +7,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.sannacode.test.contacts.entity.User;
+import com.sannacode.test.contacts.listeners.DatabaseOperationListener;
 
 import io.reactivex.Single;
 
@@ -20,7 +21,7 @@ public interface SignInContract {
 
         Single<User> getUserByAccountId(String accountId);
 
-        void insertUser(User user);
+        void insertUser(DatabaseOperationListener databaseListener, User... users );
     }
 
     interface View {

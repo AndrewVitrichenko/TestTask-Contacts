@@ -17,6 +17,12 @@ public class User {
     public User() {
     }
 
+    public User(long id, String accountId, String fullName) {
+        this.id = id;
+        this.accountId = accountId;
+        this.fullName = fullName;
+    }
+
     public void setId(long id) {
         this.id = id;
     }

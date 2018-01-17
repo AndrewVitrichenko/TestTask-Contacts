@@ -1,6 +1,7 @@
 package com.sannacode.test.contacts.ui.signin;
 
 import android.content.Intent;
+import android.support.annotation.StringRes;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -10,19 +11,16 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.sannacode.test.contacts.R;
 import com.sannacode.test.contacts.entity.User;
+import com.sannacode.test.contacts.listeners.DatabaseOperationListener;
 
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Andrew on 06.01.2018.
  */
 
-public class SignInPresenter implements SignInContract.Presenter {
+public class SignInPresenter implements SignInContract.Presenter, DatabaseOperationListener {
 
     private final SignInContract.Model mRepository;
     private SignInContract.View mView;
@@ -94,10 +92,26 @@ public class SignInPresenter implements SignInContract.Presenter {
                                 User mUser = new User();
                                 mUser.setAccountId(account.getId());
                                 mUser.setFullName(account.getDisplayName());
-                                mRepository.insertUser(mUser);
+                                mRepository.insertUser(this, mUser);
                             }
                         }
                 );
     }
 
+
+    @Override
+    public void onDatabaseOperationSucceed() {
+        showMessage(R.string.title_user_add_success);
+    }
+
+    @Override
+    public void onDatabaseOperationFailure() {
+        showMessage(R.string.message_error);
+    }
+
+    private void showMessage(@StringRes int messageId) {
+        if (mView != null) {
+            mView.showMessage(messageId);
+        }
+    }
 }

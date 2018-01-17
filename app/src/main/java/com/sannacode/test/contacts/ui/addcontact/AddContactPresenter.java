@@ -2,13 +2,13 @@ package com.sannacode.test.contacts.ui.addcontact;
 
 import com.sannacode.test.contacts.R;
 import com.sannacode.test.contacts.entity.Contact;
-import com.sannacode.test.contacts.listeners.OnUserAddedToDatabaseEvent;
+import com.sannacode.test.contacts.listeners.DatabaseOperationListener;
 
 /**
  * Created by Andrew on 06.01.2018.
  */
 
-public class AddContactPresenter implements AddContactContract.Presenter, OnUserAddedToDatabaseEvent {
+public class AddContactPresenter implements AddContactContract.Presenter, DatabaseOperationListener {
 
     private AddContactContract.Model mRepository;
     private AddContactContract.View mView;
@@ -39,7 +39,7 @@ public class AddContactPresenter implements AddContactContract.Presenter, OnUser
         contact.setLastName(lastName);
         contact.setEmail(email);
         setDefaultValues();
-        mRepository.insertContact(contact,this);
+        mRepository.insertContact(contact, this);
     }
 
     @Override
@@ -67,18 +67,19 @@ public class AddContactPresenter implements AddContactContract.Presenter, OnUser
     }
 
     @Override
-    public void onUserAddedToDatabaseSuccess() {
+    public void onDatabaseOperationSucceed() {
         if (mView != null) {
             mView.showSaveContactMessage();
         }
     }
 
     @Override
-    public void onUserAddedToDatabaseFailure() {
-        if (mView != null){
+    public void onDatabaseOperationFailure() {
+        if (mView != null) {
             mView.showMessage(R.string.message_error);
         }
     }
+
 }
 
 

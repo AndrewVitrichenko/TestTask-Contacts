@@ -2,7 +2,7 @@ package com.sannacode.test.contacts.ui.addcontact;
 
 import com.sannacode.test.contacts.database.dao.ContactsDao;
 import com.sannacode.test.contacts.entity.Contact;
-import com.sannacode.test.contacts.listeners.OnUserAddedToDatabaseEvent;
+import com.sannacode.test.contacts.listeners.DatabaseOperationListener;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,14 +21,14 @@ public class AddContactRepository implements AddContactContract.Model {
     }
 
     @Override
-    public void insertContact(Contact contact, OnUserAddedToDatabaseEvent databaseListener) {
+    public void insertContact(Contact contact, DatabaseOperationListener databaseListener) {
         Observable.just(contact)
                 .observeOn(Schedulers.io())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(mContact -> {
                             mDao.insertContact(mContact);
-                            databaseListener.onUserAddedToDatabaseSuccess();
+                            databaseListener.onDatabaseOperationSucceed();
                         },
-                        throwable -> databaseListener.onUserAddedToDatabaseFailure());
+                        throwable -> databaseListener.onDatabaseOperationFailure());
     }
 }

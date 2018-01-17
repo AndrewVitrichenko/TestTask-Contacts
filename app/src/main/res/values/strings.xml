@@ -19,5 +19,6 @@
     <string name="title_sort_by_name">Sort by name</string>
     <string name="title_sort_by_email">Sort by email</string>
     <string name="warning_need_account_permission">The app needs access to accounts</string>
+    <string name="title_user_add_success">User was added.</string>
 
 </resources>

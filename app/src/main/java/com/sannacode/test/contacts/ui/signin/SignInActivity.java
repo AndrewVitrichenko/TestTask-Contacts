@@ -58,7 +58,8 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
     @Override
     public void showMessage(@StringRes int messageId) {
-        Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
+        runOnUiThread(() ->
+                Toast.makeText(SignInActivity.this, messageId, Toast.LENGTH_SHORT).show());
     }
 
     @Override

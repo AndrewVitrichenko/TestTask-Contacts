@@ -4,13 +4,11 @@ import android.support.annotation.StringRes;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.sannacode.test.contacts.entity.Contact;
 import com.sannacode.test.contacts.entity.SortType;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 /**

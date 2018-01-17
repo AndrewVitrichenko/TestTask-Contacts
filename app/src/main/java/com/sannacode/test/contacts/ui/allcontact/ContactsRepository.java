@@ -4,10 +4,8 @@ import com.sannacode.test.contacts.database.dao.ContactsDao;
 import com.sannacode.test.contacts.entity.Contact;
 import com.sannacode.test.contacts.entity.SortType;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 
