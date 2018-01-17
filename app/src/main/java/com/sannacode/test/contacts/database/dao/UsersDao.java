@@ -2,6 +2,7 @@ package com.sannacode.test.contacts.database.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.sannacode.test.contacts.entity.User;

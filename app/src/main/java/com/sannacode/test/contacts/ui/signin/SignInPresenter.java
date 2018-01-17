@@ -73,32 +73,29 @@ public class SignInPresenter implements SignInContract.Presenter {
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(signInData);
         try {
             GoogleSignInAccount account = task.getResult(ApiException.class);
-//            checkIfUserExistInDatabase(account);
+            checkIfUserExistInDatabase(account);
             if (mView != null) {
                 mView.startContactsActivity(account);
             }
         } catch (ApiException e) {
-//            if (mView != null) {
-//                mView.showMessage(R.string.message_error);
-//            }
-            checkIfUserExistInDatabase("123456");
             if (mView != null) {
-                mView.startContactsActivity("123456");
+                mView.showMessage(R.string.message_error);
             }
         }
     }
 
 
-    private void checkIfUserExistInDatabase(String accountId) {
-        mRepository.getUserByAccountId(accountId)
+    private void checkIfUserExistInDatabase(GoogleSignInAccount account) {
+        mRepository.getUserByAccountId(account.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        throwable -> {
-                            User mUser = new User();
-                            mUser.setAccountId(accountId);
-                            mUser.setFullName("Petya");
-                            mRepository.insertUser(mUser);
+                .subscribe((user, throwable) -> {
+                            if (user == null) {
+                                User mUser = new User();
+                                mUser.setAccountId(account.getId());
+                                mUser.setFullName(account.getDisplayName());
+                                mRepository.insertUser(mUser);
+                            }
                         }
                 );
     }

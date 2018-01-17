@@ -70,14 +70,6 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
         finish();
     }
 
-    @Override
-    public void startContactsActivity(String accountId) {
-        Intent openContactsIntent = new Intent(this, ContactsActivity.class);
-        openContactsIntent.putExtra(Constants.ACCOUNT_ID, accountId);
-        openContactsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(openContactsIntent);
-        finish();
-    }
 
     @OnClick(R.id.sign_in_button)
     public void signIn() {

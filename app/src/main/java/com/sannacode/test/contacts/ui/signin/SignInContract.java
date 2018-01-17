@@ -29,8 +29,6 @@ public interface SignInContract {
 
         void startContactsActivity(GoogleSignInAccount account);
 
-        void startContactsActivity(String accountId);
-
         GoogleSignInClient getGoogleClient(GoogleSignInOptions gso);
 
         void startSignInIntent(Intent signInIntent);

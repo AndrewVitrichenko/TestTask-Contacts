@@ -116,8 +116,18 @@ public class AddContactFragment extends BaseFragment implements AddContactContra
 
     @Override
     public void showSaveContactMessage() {
-        Toast.makeText(mContactActivity, R.string.title_contact_saved, Toast.LENGTH_SHORT).show();
-        mContactActivity.onBackPressed();
+        getActivity().runOnUiThread(() -> {
+//            Toast.makeText(mContactActivity, R.string.title_contact_saved, Toast.LENGTH_SHORT).show();
+            showMessage(R.string.title_contact_saved);
+            mContactActivity.onBackPressed();
+        });
+    }
+
+    @Override
+    public void showMessage(int messageId) {
+        getActivity().runOnUiThread(() -> {
+            Toast.makeText(mContactActivity, messageId, Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
@@ -126,6 +136,7 @@ public class AddContactFragment extends BaseFragment implements AddContactContra
         mEditTextLastName.setText(lastName);
         mEditTextEmail.setText(email);
     }
+
 
     @Override
     public void onStop() {

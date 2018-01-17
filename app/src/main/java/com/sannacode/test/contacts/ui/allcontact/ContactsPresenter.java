@@ -14,8 +14,10 @@ import com.sannacode.test.contacts.entity.SortType;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -42,8 +44,13 @@ public class ContactsPresenter implements ContactsContract.Presenter, OnComplete
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mContacts -> {
-                            if (mView != null)
-                                mView.showContacts(mContacts);
+                            if (mView != null) {
+                                if (mContacts.isEmpty()) {
+                                    mView.showNoContactsMessage();
+                                } else {
+                                    mView.showContacts(mContacts);
+                                }
+                            }
                         },
                         throwable -> {
                             if (mView != null)

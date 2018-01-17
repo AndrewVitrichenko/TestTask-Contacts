@@ -1,6 +1,9 @@
 package com.sannacode.test.contacts.ui.addcontact;
 
+import android.support.annotation.StringRes;
+
 import com.sannacode.test.contacts.entity.Contact;
+import com.sannacode.test.contacts.listeners.OnUserAddedToDatabaseEvent;
 
 /**
  * Created by Andrew on 06.01.2018.
@@ -10,7 +13,7 @@ public interface AddContactContract {
 
     interface Model {
 
-        void insertContact(Contact contact);
+        void insertContact(Contact contact, OnUserAddedToDatabaseEvent databaseListener);
     }
 
     interface View {
@@ -18,6 +21,8 @@ public interface AddContactContract {
         void showSaveContactMessage();
 
         void setSavedValues(String firstName, String lastName, String email);
+
+        void showMessage(@StringRes int messageId);
     }
 
     interface Presenter {
