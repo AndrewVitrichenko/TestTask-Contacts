@@ -50,31 +50,10 @@ public class ContactsRepositoryTest {
     }
 
 
-//    @Test
-//    public void insertUser() {
-//        mUserRepository.insertUser(new DatabaseOperationListener() {
-//            @Override
-//            public void onDatabaseOperationSucceed() {
-//                mUserRepository.getUserByAccountId(mUser.getAccountId())
-//                        .test()
-//                        .assertValue(user -> user != null && user.getId() == mUser.getId() &&
-//                                user.getAccountId().equals(mUser.getAccountId()) &&
-//                                user.getFullName().equals(mUser.getFullName()));
-//            }
-//
-//            @Override
-//            public void onDatabaseOperationFailure() {
-//                mUserRepository.getUserByAccountId(mUser.getAccountId())
-//                        .test()
-//                        .assertError(new EmptyResultSetException("No results!"));
-//            }
-//        }, mUser);
-//    }
-
 
     @Test
     public void getContactsWhenRepositoryIsEmpty() throws EmptyResultSetException {
-        mUserRepository.getUserByAccountId(mUser.getAccountId());
+        mContactsRepository.getContactsByAccountId(mUser.getAccountId(),SortType.DEFAULT);
     }
 
     @Test
