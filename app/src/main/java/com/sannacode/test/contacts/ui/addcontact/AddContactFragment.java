@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
-import com.sannacode.test.contacts.MainApplication;
 import com.sannacode.test.contacts.R;
 import com.sannacode.test.contacts.ui.ContactsActivity;
 import com.sannacode.test.contacts.ui.base.BaseFragment;
@@ -61,11 +60,11 @@ public class AddContactFragment extends BaseFragment implements AddContactContra
         }
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mContactActivity = (ContactsActivity) getActivity();
-        ((MainApplication) mContactActivity.getApplication()).getAppComponent().inject(this);
     }
 
     @Nullable

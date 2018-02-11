@@ -1,29 +1,31 @@
 package com.sannacode.test.contacts.di.components;
 
+import android.content.Context;
+
+import com.sannacode.test.contacts.MainApplication;
 import com.sannacode.test.contacts.di.modules.AppModule;
-import com.sannacode.test.contacts.di.modules.PersistenceModule;
-import com.sannacode.test.contacts.di.modules.PresentationModule;
-import com.sannacode.test.contacts.ui.addcontact.AddContactFragment;
-import com.sannacode.test.contacts.ui.allcontact.ContactsFragment;
-import com.sannacode.test.contacts.ui.signin.SignInActivity;
 
 import javax.inject.Singleton;
 
+import dagger.BindsInstance;
 import dagger.Component;
 
 /**
  * Created by Andrew on 05.01.2018.
  */
 
-
-@Component(modules = {AppModule.class, PersistenceModule.class, PresentationModule.class})
 @Singleton
+@Component(modules = {AppModule.class})
 public interface AppComponent {
 
-    void inject(SignInActivity target);
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        Builder context(Context context);
 
-    void inject(ContactsFragment target);
+        AppComponent build();
+    }
 
-    void inject(AddContactFragment target);
+    void inject(MainApplication app);
 
 }

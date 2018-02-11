@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 
 public class ContactsActivity extends BaseActivity {
 
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -36,4 +37,5 @@ public class ContactsActivity extends BaseActivity {
     protected int getContainerID() {
         return R.id.fragment_main_container;
     }
+
 }

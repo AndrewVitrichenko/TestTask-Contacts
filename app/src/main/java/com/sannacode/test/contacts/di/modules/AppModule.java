@@ -1,32 +1,28 @@
 package com.sannacode.test.contacts.di.modules;
 
-import android.content.Context;
-
-import com.sannacode.test.contacts.MainApplication;
-
-import javax.inject.Singleton;
+import com.sannacode.test.contacts.di.scopes.ActivityScope;
+import com.sannacode.test.contacts.ui.ContactsActivity;
+import com.sannacode.test.contacts.ui.ContactsModule;
+import com.sannacode.test.contacts.ui.signin.SignInActivity;
+import com.sannacode.test.contacts.ui.signin.SignInModule;
 
 import dagger.Module;
-import dagger.Provides;
+import dagger.android.ContributesAndroidInjector;
+import dagger.android.support.AndroidSupportInjectionModule;
 
 /**
  * Created by Andrew on 05.01.2018.
  */
 
-@Module
-public class AppModule {
+@Module(includes = {AndroidSupportInjectionModule.class, PersistenceModule.class})
+public interface AppModule {
 
-    private final MainApplication mApplication;
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {SignInModule.class})
+    SignInActivity signInActivityInjector();
 
-    public AppModule(MainApplication mApplication) {
-        this.mApplication = mApplication;
-    }
-
-    @Provides
-    @Singleton
-    Context provideContext() {
-        return mApplication.getApplicationContext();
-    }
-
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {ContactsModule.class})
+    ContactsActivity contactsActivityInjector();
 
 }

@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.sannacode.test.contacts.MainApplication;
 import com.sannacode.test.contacts.R;
 import com.sannacode.test.contacts.entity.Contact;
 import com.sannacode.test.contacts.entity.SortType;
@@ -99,11 +98,11 @@ public class ContactsFragment extends BaseFragment implements ContactsContract.V
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mContactActivity = (ContactsActivity) getActivity();
-        ((MainApplication) mContactActivity.getApplication()).getAppComponent().inject(this);
     }
 
     @Nullable

@@ -20,9 +20,8 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by Andrew on 05.01.2018.
+ * Created by Andrew on 11.02.2018.
  */
-
 @Module
 public class PersistenceModule {
 
@@ -62,6 +61,4 @@ public class PersistenceModule {
     AddContactContract.Model provideAddContactRepository(ContactsDao mDao) {
         return new AddContactRepository(mDao);
     }
-
-
 }
